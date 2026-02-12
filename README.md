@@ -6,9 +6,9 @@ AndroidGeneralStore is a mobile automation testing framework for Android applica
 
 Tech Stack
 ----------
-- Java
-- Appium (io.appium:java-client)
-- TestNG
+- Java 25
+- Appium (io.appium:java-client) 10.0.0
+- TestNG 7.11.0
 - Maven
 - IntelliJ IDEA (recommended)
 
