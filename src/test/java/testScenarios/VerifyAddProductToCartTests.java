@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VerifyAddProductToCartTests extends BaseTestScenario {
-    @Test
+    @Test(groups = {"smoke"})
     public void fillingTheForm() {
         Assert.assertTrue(
                 new LandingScreen(driver)
@@ -21,7 +21,7 @@ public class VerifyAddProductToCartTests extends BaseTestScenario {
                 "product screen not displayed");
     }
 
-    @Test(dependsOnMethods = {"fillingTheForm"})
+    @Test(groups = {"smoke"}, dependsOnMethods = {"fillingTheForm"})
     public void addProductToCart() {
         List<String> productList = new ArrayList<>();
         productList.add("Jordan 6 Rings");
@@ -33,7 +33,7 @@ public class VerifyAddProductToCartTests extends BaseTestScenario {
         Assert.assertEquals(actualCartCounter, 2, "cart counter mismacth");
     }
 
-    @Test(dependsOnMethods = {"fillingTheForm", "addProductToCart"})
+    @Test(groups = {"smoke"}, dependsOnMethods = {"fillingTheForm", "addProductToCart"})
     public void navigateToCartSuccessfully() {
         String actualScreenTitle =
                 new ProductListScreen(driver)
@@ -45,7 +45,7 @@ public class VerifyAddProductToCartTests extends BaseTestScenario {
     }
 
 
-    @Test(dependsOnMethods = {"fillingTheForm", "addProductToCart", "navigateToCartSuccessfully"})
+    @Test(groups = {"smoke"}, dependsOnMethods = {"fillingTheForm", "addProductToCart", "navigateToCartSuccessfully"})
     public void verifyTotalAmount() {
         double cartTotalCartAmount = new CartScreen(driver).getTotalCartAmount();
         double calculatedCartAmount = new CartScreen(driver).getTotalAmountCalculated();
@@ -53,7 +53,7 @@ public class VerifyAddProductToCartTests extends BaseTestScenario {
         System.out.println("calculated= " + calculatedCartAmount);
         Assert.assertEquals(cartTotalCartAmount, calculatedCartAmount, "calulated= " + calculatedCartAmount + "while cart amount= " + cartTotalCartAmount);
     }
-    @Test(dependsOnMethods = {"fillingTheForm", "addProductToCart", "navigateToCartSuccessfully","verifyTotalAmount"})
+    @Test(groups = {"smoke"}, dependsOnMethods = {"fillingTheForm", "addProductToCart", "navigateToCartSuccessfully","verifyTotalAmount"})
 public void verifyPurchase(){
         Assert.assertTrue(new CartScreen(driver)
                 .completePurchase()
