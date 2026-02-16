@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class CartTestSuitTests extends BaseCartScreenTests {
-    @Test
+    @Test(groups ="regression")
     public void verifySendEmailCheckBoxIsCheckedAfterClick() {
         String actualCheckButtonStatus =
                 new CartScreen(driver).checkSendEmail()
@@ -16,7 +16,7 @@ public class CartTestSuitTests extends BaseCartScreenTests {
 
     }
 
-    @Test
+    @Test(groups ="regression")
     public void verifyProductPriceInCartByName() {
         String productName = "Jordan 6 Rings";
         Double expectedProductInCartPrice = 165.0;
@@ -26,7 +26,7 @@ public class CartTestSuitTests extends BaseCartScreenTests {
         Assert.assertEquals(actualProductInCartPrice, expectedProductInCartPrice, productName + "product price mismatch");
 
     }
-    @Test
+    @Test(groups ="regression")
     public void verifyTermsPopUpSuccessfully(){
         boolean isTermsPopUpDisplayed= new CartScreen(driver)
                 .longClickOnTermsAndConditions()

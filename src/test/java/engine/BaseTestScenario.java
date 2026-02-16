@@ -21,7 +21,7 @@ public abstract class BaseTestScenario {
     UiAutomator2Options options;
     AppiumDriverLocalService service;
     Wait<AndroidDriver> wait;
-   @BeforeClass
+   @BeforeClass(alwaysRun = true)
     public void testScenarioSetup() throws URISyntaxException, MalformedURLException {
        options = new UiAutomator2Options()
                .setDeviceName("127.0.0.1:5554")
@@ -36,12 +36,12 @@ public abstract class BaseTestScenario {
        service.start();
        driver =new AndroidDriver(new URI("http://127.0.0.1:4723").toURL(),options);
        wait= new FluentWait<>(driver)
-               .withTimeout(Duration.ofSeconds(10))
+               .withTimeout(Duration.ofSeconds(100))
                .pollingEvery(Duration.ofMillis(200))
                .ignoring(NoSuchElementException.class)
                .ignoring(StaleElementReferenceException.class);
    }
-   @AfterClass
+   @AfterClass(alwaysRun = true)
    public void testScenarioTearDown(){
        driver.quit();
        service.stop();

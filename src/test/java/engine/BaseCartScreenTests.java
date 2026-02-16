@@ -5,13 +5,13 @@ import generalStoreScreens.ProductListScreen;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 
-public abstract class BaseCartScreenTests extends BaseTestScenario {
+public abstract class BaseCartScreenTests extends BaseTestCase {
     String country="Albania";
     String userName="test user name";
     String product="Jordan 6 Rings";
     String expectedAddToCartButonText="ADDED TO CART";
     String expectedScreenTitle = "Cart";
-@BeforeMethod
+@BeforeMethod(alwaysRun = true)
     public void beforeCartScreenSetup(){
     //fill the form > navigate to product list
     Assert.assertTrue(

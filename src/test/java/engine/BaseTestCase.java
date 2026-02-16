@@ -22,7 +22,7 @@ public abstract class BaseTestCase {
     AppiumDriverLocalService service;
     Wait<AndroidDriver> wait;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void testCaseSetUp() throws URISyntaxException, MalformedURLException {
         options = new UiAutomator2Options()
                 .setDeviceName("127.0.0.1:5554")
@@ -41,7 +41,7 @@ public abstract class BaseTestCase {
                 .ignoring(StaleElementReferenceException.class);
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
             driver.quit();
            service.stop();
