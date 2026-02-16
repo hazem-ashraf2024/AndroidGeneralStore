@@ -1,14 +1,12 @@
 package testCases.landingScreenTestCases;
 
-import com.google.common.collect.ImmutableMap;
+
 import engine.BaseTestCase;
-import engine.BaseTestScenario;
 import generalStoreScreens.LandingScreen;
-import io.appium.java_client.android.Activity;
-import io.appium.java_client.android.AndroidDriver;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+
 
 public class LandingScreenTestSuitTests extends BaseTestCase {
 
