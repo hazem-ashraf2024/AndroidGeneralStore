@@ -1,0 +1,6 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","1894","navigateToCartSuccessfully","Surefire suite","2026-02-17","passed","2026-02-17","testScenarios.VerifyAddProductToCartTests","Surefire test","testScenarios.VerifyAddProductToCartTests","navigateToCartSuccessfully"
+"","11549","fillingTheForm","Surefire suite","2026-02-17","passed","2026-02-17","testScenarios.VerifyAddProductToCartTests","Surefire test","testScenarios.VerifyAddProductToCartTests","fillingTheForm"
+"","9835","verifyPurchase","Surefire suite","2026-02-17","passed","2026-02-17","testScenarios.VerifyAddProductToCartTests","Surefire test","testScenarios.VerifyAddProductToCartTests","verifyPurchase"
+"","463","verifyTotalAmount","Surefire suite","2026-02-17","passed","2026-02-17","testScenarios.VerifyAddProductToCartTests","Surefire test","testScenarios.VerifyAddProductToCartTests","verifyTotalAmount"
+"","18058","addProductToCart","Surefire suite","2026-02-17","passed","2026-02-17","testScenarios.VerifyAddProductToCartTests","Surefire test","testScenarios.VerifyAddProductToCartTests","addProductToCart"

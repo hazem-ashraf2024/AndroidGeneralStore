@@ -4,10 +4,14 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.qameta.allure.Attachment;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -39,6 +43,23 @@ public abstract class BaseTestCase {
                 .pollingEvery(Duration.ofMillis(200))
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
+    }
+    @AfterMethod
+    public void captureScreenshotOnFailureWithAllure(ITestResult result) {
+        if (ITestResult.FAILURE == result.getStatus()) {
+            try {
+                byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+                saveScreenshot(screenshotBytes, result.getName());
+            } catch (Exception e) {
+                System.out.println("Failed to capture screenshot: " + e.getMessage());
+            }
+        }
+    }
+
+    // Allure attachment
+    @Attachment(value = "{testName} - Screenshot", type = "image/png")
+    public byte[] saveScreenshot(byte[] screenShot, String testName) {
+        return screenShot;
     }
 
     @AfterMethod(alwaysRun = true)
