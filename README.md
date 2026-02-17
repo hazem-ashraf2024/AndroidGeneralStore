@@ -1,194 +1,188 @@
 # AndroidGeneralStore - Mobile Automation Test Framework
 
-Project Description
--------------------
-AndroidGeneralStore is a mobile automation testing framework for Android applications built with Java, Appium, TestNG and Maven. The project follows common test-automation best practices such as the Page Object Model (POM), reusable screen utilities, and TestNG-based test execution.
+A friendly mobile automation testing framework for Android applications that makes testing actually enjoyable! Built with Java, Appium, TestNG and Maven, following practical test-automation best practices.
 
-Tech Stack
-----------
-- Java 25
-- Appium (io.appium:java-client) 10.0.0
-- TestNG 7.11.0
-- Maven
-- IntelliJ IDEA (recommended)
+## What We Use
 
-Project Structure
------------------
-Top-level project tree (relevant files and folders):
+- **Java 25** - Modern and powerful
+- **Appium 10.0.0** - Reliable mobile automation
+- **TestNG 7.12.0** - Flexible test framework
+- **Allure Reports** - Beautiful test reports
+- **Maven** - Dependency management made easy
+- **Jackson** - JSON handling for test data
+- **Commons IO** - File operations utilities
+
+## Project Layout
 
 ```
 AndroidGeneralStore/
-├── pom.xml
-├── src
-│   ├── main
-│   │   └── java
-│   │       └── screenEngine
-│   │           ├── BaseScreen.java
-│   │           ├── ElementAction.java
-│   │           └── Gestures.java
-│   └── test
-│       ├── java
-│       │   └── engine
-│       │       ├── BaseTestCase.java
-│       │       ├── BaseTestScenario.java
-│       │       └── BaseCartScreenTests.java
-│       │   └── testCases
-│       │       └── ...
-│       └── resources
-│           └── GeneralStore.apk
-└── target/
+├── pom.xml                    # Dependencies and build config
+├── src/
+│   ├── main/java/
+│   │   ├── screenEngine/      # Core utilities & base classes
+│   │   └── generalStoreScreens/ # Page objects for the app
+│   └── test/
+│       ├── java/
+│       │   ├── engine/        # Base test classes
+│       │   ├── testCases/     # Individual test cases
+│       │   └── testScenarios/ # End-to-end scenarios
+│       └── resources/
+│           └── GeneralStore.apk # Our test app
+└── target/                    # Build outputs and reports
 ```
 
-Key folders
-- `src/main/java/screenEngine` - Core screen and utility classes (base screen, element actions, gestures)
-- `src/test/java/engine` - Base test classes that start/stop Appium and driver
-- `src/test/resources` - Test resources (APK under test)
-- `pom.xml` - Maven dependency and build configuration
+## What We Test
 
-Test structure
---------------
-- Tests are implemented using TestNG and live under `src/test/java`.
-- `BaseTestCase` uses TestNG `@BeforeMethod`/`@AfterMethod` to create a fresh Appium session per test method.
-- `BaseTestScenario` uses TestNG `@BeforeClass`/`@AfterClass` to create a single Appium session per test class (scenario).
-- Page objects / screen classes are under `src/main/java/screenEngine` and follow the POM-style separation of screen logic from tests.
+The framework covers the main user flows of the General Store app:
 
-Driver setup
-------------
-Driver and Appium server are created programmatically in the base test classes:
-- `UiAutomator2Options` is used to configure the Android session (device name, app path, chromedriver settings).
-- `AppiumDriverLocalService` with `AppiumServiceBuilder` starts a local Appium server bound to 127.0.0.1:4723.
-- `AndroidDriver` is created with the service URL and options.
+- **Landing Screen** - User registration and form validation
+- **Product List** - Product browsing and selection
+- **Shopping Cart** - Cart management and checkout flow
 
-Configuration management
-------------------------
-- The current project hardcodes device identifiers, APK path, and Chromedriver path in `BaseTestCase` / `BaseTestScenario`.
-- For a production-ready framework, externalize these values into a `config.properties` or `testng.xml` and load them at runtime.
+### Test Categories
 
-Reporting tools
----------------
-- No reporting framework (Allure, ReportNG, ExtentReports) was detected in the repository or `pom.xml`.
-- TestNG's native reports will still be produced under `target/surefire-reports` when tests are run via Maven Surefire.
+1. **Unit Tests** - Individual screen functionality
+2. **Integration Tests** - Cross-screen workflows
+3. **Scenario Tests** - Complete user journeys
 
-Dependency management
----------------------
-Dependencies are declared in `pom.xml`. Extracted key dependencies:
+## How It Works
 
-- org.testng:testng:7.11.0 (scope: test)
-- io.appium:java-client:10.0.0 (scope: compile)
+### Base Classes
 
-(These were read directly from `pom.xml`.)
+- **BaseTestCase** - Fresh Appium session for each test method
+- **BaseTestScenario** - Shared session for test classes
+- **BaseScreen** - Common screen utilities and waits
 
-Platform support
-----------------
-- Android is supported via UiAutomator2 (UiAutomator2Options present).
-- iOS support is not detected in the repository.
+### Screen Objects
 
-Parallel execution
-------------------
-- No explicit parallel execution configuration was detected in the repository (no Maven Surefire plugin configuration or TestNG `testng.xml` specifying parallel). TestNG supports parallelism, and it can be enabled by supplying a `testng.xml` or surefire plugin config.
+Clean, maintainable page objects for:
+- `LandingScreen` - Registration and login
+- `ProductListScreen` - Product catalog
+- `CartScreen` - Shopping cart management
 
-CI/CD Integration
------------------
-- No CI/CD configuration files were detected (no `.github/workflows`, `Jenkinsfile`, GitLab CI file, etc.).
+### Smart Features
 
-Best practices used
--------------------
-- Separation of concerns via Page Object Model (screen classes under `screenEngine`).
-- Reusable utilities placed in `screenEngine` (`ElementAction`, `Gestures`).
-- TestNG is used for structuring tests and lifecycle management.
-- FluentWait-based wait utilities used in `ElementAction` and base tests.
+- **JSON Test Data** - External test data management
+- **Properties File Support** - Flexible configuration
+- **Screenshot Capture** - Automatic failure screenshots
+- **Allure Reporting** - Rich, interactive test reports
+- **Gesture Support** - Touch and swipe actions
 
-Known improvements / recommendations
------------------------------------
-- Externalize configuration (device name, app path, server host/port, chromedriver path) to a properties file or environment variables.
-- Add a `testng.xml` to control suites, groups, and parallel execution.
-- Add a reporting tool (Allure/Extent) for richer test reports.
-- Add CI workflows (GitHub Actions) to run tests on PRs / merges.
-- Add error handling and null checks to avoid NPEs during driver/session initialization.
+## Getting Started
 
-How to run
-----------
-Prerequisites
-- Java JDK 11+ installed and JAVA_HOME set
-- Maven installed and on PATH
-- Appium server binary installed globally (if not using the programmatic service), or ensure the Appium Java service can start on your machine
-- Android emulator or device connected and accessible at the configured device name (current config uses `127.0.0.1:5554`)
-- Chromedriver available if tests interact with webviews (the project currently uses chromedriver settings in `BaseTestCase`/`BaseTestScenario`)
+### Prerequisites
 
-Install / Build
+- Java JDK 11+ (we use 25)
+- Maven 3.6+
+- Appium server
+- Android emulator or device
+- ChromeDriver (for webviews)
 
-```powershell
-# From project root
-mvn -q clean test-compile
+### Quick Setup
+
+```bash
+# Clone and build
+git clone <repository-url>
+cd AndroidGeneralStore
+mvn clean compile
+
+# Run all tests
+mvn test
+
+# View Allure reports
+mvn allure:serve
 ```
 
-Run all tests (via Maven)
+### Running Specific Tests
 
-```powershell
-mvn -DskipTests=false test
+```bash
+# Run landing screen tests
+mvn test -Dtest=LandingScreenTestSuitTests
+
+# Run product list tests
+mvn test -Dtest=ProductListScreenTests
+
+# Run cart tests
+mvn test -Dtest=CartTestSuitTests
+
+# Run end-to-end scenarios
+mvn test -Dtest=VerifyAddProductToCartTests
 ```
 
-Run a single TestNG test class
+## Configuration
 
-```powershell
-mvn -Dtest=productListScreenTests.ProductListScreenTests test
+The framework supports multiple configuration approaches:
+
+1. **Hardcoded** (for quick starts)
+2. **Properties File** (recommended for teams)
+3. **JSON Test Data** (for data-driven testing)
+
+### Properties File Support
+
+Create `src/test/resources/config.properties`:
+```properties
+device.name=emulator-5554
+app.path=src/test/resources/GeneralStore.apk
+server.host=127.0.0.1
+server.port=4723
 ```
 
-Or run via TestNG XML (if you add `testng.xml`):
+## Reports & Results
 
-```powershell
-mvn test -Dsurefire.suiteXmlFiles=testng.xml
+### Allure Reports
+
+Beautiful, interactive reports with:
+- Test execution timeline
+- Screenshots and videos
+- Test data and parameters
+- Failure analysis
+
+Generate reports:
+```bash
+mvn test
+mvn allure:serve    # View live reports
+mvn allure:report   # Generate static reports
 ```
 
-Running from IntelliJ IDEA
-- Import the project as a Maven project.
-- Right-click a test class or method and choose "Run".
-- Make sure the device/emulator and Appium server are available.
+### TestNG Reports
 
-Test configuration
-------------------
-The framework currently configures capabilities and Appium service in code. Recommended improvements:
-- Move configuration values to `src/test/resources/config.properties` or use environment variables.
-- Add a utility loader class to read configuration and build `UiAutomator2Options` dynamically.
+Standard HTML reports in `target/surefire-reports/`
 
-Parallel Execution
-------------------
-Parallel execution is not currently configured. To enable TestNG parallelism:
-- Create a `testng.xml` and add parallel="methods" or parallel="classes" with a `thread-count`.
-- Configure Maven Surefire plugin in `pom.xml` to pick up the `testng.xml` or pass the suite file on the command line.
+## Best Practices We Follow
 
-Reporting
----------
-- Native TestNG HTML reports will be generated by Maven Surefire in `target/surefire-reports`.
-- To add richer reports, integrate Allure or ExtentReports and update the `pom.xml` with the relevant plugin/config.
+- **Page Object Model** - Clean separation of concerns
+- **Reusable Utilities** - Don't repeat yourself
+- **Explicit Waits** - Reliable test execution
+- **Data-Driven Testing** - Flexible test data management
+- **Comprehensive Reporting** - Know what's happening
 
-CI/CD
------
-No CI configuration detected. Example GitHub Actions steps to consider:
-- Set up Java and Android SDK
-- Start an emulator or connect a device
-- Install Appium
-- Run `mvn test`
+## Cool Features
 
-Contributing
-------------
-Contributions are welcome. Please follow these guidelines:
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Add tests for new functionality.
-4. Ensure `mvn -DskipTests=false test` passes locally.
-5. Open a pull request describing your changes.
+- **Screenshot on Failure** - Automatic visual debugging
+- **JSON Test Data** - Easy test data management
+- **Gesture Support** - Natural mobile interactions
+- **Flexible Configuration** - Adapt to your environment
+- **Parallel Execution Ready** - Scale your testing
 
-License
--------
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Contributing
 
-Author
-------
-- [Your Name Here] - replace with actual author details
+We'd love your help! Here's how to get started:
 
-Acknowledgements
-----------------
-- Built using Appium Java Client and TestNG
+1. Fork the project
+2. Create a feature branch
+3. Add your awesome tests
+4. Make sure everything passes: `mvn test`
+5. Open a pull request
 
-```
+## Need Help?
+
+- Check the test classes for examples
+- Look at the screen objects for patterns
+- Review the base classes for setup
+- Run Allure reports for detailed insights
+
+
+
+---
+
+**Happy Testing! 🚀**
