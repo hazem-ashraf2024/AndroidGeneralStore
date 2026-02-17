@@ -11,8 +11,11 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.testng.Assert;
 import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import java.net.MalformedURLException;
@@ -26,11 +29,11 @@ public abstract class BaseTestCase {
     AppiumDriverLocalService service;
     Wait<AndroidDriver> wait;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void testCaseSetUp() throws URISyntaxException, MalformedURLException {
         options = new UiAutomator2Options()
                 .setDeviceName("127.0.0.1:5554")
-                .setApp("C:\\Users\\ashra\\IdeaProjects\\AndroidGeneralStore\\src\\test\\resources\\GeneralStore.apk")
+//                .setApp("C:\\Users\\ashra\\IdeaProjects\\AndroidGeneralStore\\src\\test\\resources\\GeneralStore.apk")
                 .setChromedriverExecutable("C:\\Users\\ashra\\Downloads\\Compressed\\chromedriver.exe");
         service = new AppiumServiceBuilder()
                 .withIPAddress("127.0.0.1")
@@ -44,6 +47,11 @@ public abstract class BaseTestCase {
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
     }
+    @BeforeMethod(alwaysRun = true)
+    public void setUpApp(){
+        driver.activateApp("com.androidsample.generalstore");
+    }
+
     @AfterMethod
     public void captureScreenshotOnFailureWithAllure(ITestResult result) {
         if (ITestResult.FAILURE == result.getStatus()) {
@@ -61,8 +69,12 @@ public abstract class BaseTestCase {
     public byte[] saveScreenshot(byte[] screenShot, String testName) {
         return screenShot;
     }
-
     @AfterMethod(alwaysRun = true)
+    public void tearDownApp(){
+        boolean isAppTerminated=driver.terminateApp("com.androidsample.generalstore");
+        Assert.assertTrue(isAppTerminated,"app not terminated");
+    }
+    @AfterClass(alwaysRun = true)
     public void tearDown() {
             driver.quit();
            service.stop();

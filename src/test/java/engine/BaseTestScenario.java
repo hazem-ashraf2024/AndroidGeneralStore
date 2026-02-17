@@ -11,6 +11,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -29,8 +30,8 @@ public abstract class BaseTestScenario {
    @BeforeClass(alwaysRun = true)
     public void testScenarioSetup() throws URISyntaxException, MalformedURLException {
        options = new UiAutomator2Options()
-               .setDeviceName("127.0.0.1:5554")
-               .setApp("C:\\Users\\ashra\\IdeaProjects\\AndroidGeneralStore\\src\\test\\resources\\GeneralStore.apk");
+               .setDeviceName("127.0.0.1:5554");
+             //  .setApp("C:\\Users\\ashra\\IdeaProjects\\AndroidGeneralStore\\src\\test\\resources\\GeneralStore.apk");
        options.setCapability("chromedriverAutodownload", true);
 
 //               .setChromedriverExecutable("C:\\Users\\ashra\\Downloads\\Compressed\\chromedriver.exe")
@@ -45,6 +46,8 @@ public abstract class BaseTestScenario {
                .pollingEvery(Duration.ofMillis(200))
                .ignoring(NoSuchElementException.class)
                .ignoring(StaleElementReferenceException.class);
+       driver.activateApp("com.androidsample.generalstore");
+
    }
     @AfterMethod(alwaysRun = true)
     public void captureScreenshotOnFailure(ITestResult result) {
@@ -66,7 +69,9 @@ public abstract class BaseTestScenario {
 
     @AfterClass(alwaysRun = true)
    public void testScenarioTearDown(){
-       driver.quit();
+        boolean isAppTerminated=driver.terminateApp("com.androidsample.generalstore");
+        Assert.assertTrue(isAppTerminated,"app not terminated");
+        driver.quit();
        service.stop();
    }
 }
